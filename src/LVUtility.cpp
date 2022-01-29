@@ -47,7 +47,6 @@ void LVWriteStringHandle(LStrHandle &strHandle, std::string str) {
 
 
 void LVWriteStringHandle(LStrHandle &strHandle, std::wstring wstr){	
-#if defined(_WIN32) || defined(_WIN64)
 	// Setup converter
 	std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converter;
 
@@ -55,11 +54,6 @@ void LVWriteStringHandle(LStrHandle &strHandle, std::wstring wstr){
 	std::string converted_str = converter.to_bytes(wstr);
 
 	LVWriteStringHandle(strHandle, converted_str.c_str(), converted_str.length());
-#else
-	// gcc4.x does not yet support the above utilities, coming in gcc5
-	// Workarounds exist, but might as well wait for the c++11 implementation
-	throw LVException(__FILE__, __LINE__, "wstring conversion not implemented for g++");
-#endif
 }
 
 
